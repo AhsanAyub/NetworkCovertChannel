@@ -71,9 +71,9 @@ for data_dic in data:
             
             # hard coded class defined
             if (temp[2] == '0x00002000'):
-                temp[12] = 1 # No covert channel's presence
+                temp[12] = 1 # Covert channel's presence
             else:
-                temp[12] = 0 # Covert channel's presence
+                temp[12] = 0 # No Covert channel's presence
             loadToMainDataFrame()
             rowIndexToInsertNDArray = rowIndexToInsertNDArray + 1
             temp.clear()
@@ -82,4 +82,4 @@ for data_dic in data:
             continue
 
 # Generating the CSV file for further usuage.            
-pd.DataFrame(mainDataFrame).to_csv("file_path.csv")
+pd.DataFrame(mainDataFrame).to_csv("Processed_Data_Set_IP_ID_22_10_2018.csv")
