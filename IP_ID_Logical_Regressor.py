@@ -10,7 +10,10 @@ __status__ = "Prototype"
 import pandas as pd
 
 #importing the data set
-dataset = pd.read_excel("Processed_Data_Set_IP_ID_22_10_2018.xlsx")
+dataset = pd.read_excel("Final_Processed_Data_Set_IP_ID_22_10_2018.xlsx")
+
+# Dropping the features utilizing domain knowledge and feature selection
+dataset = dataset.drop(['ip.id', 'ip.checksum'], axis = 1)
 
 # X and Y
 Y = dataset.iloc[:, -1].values
@@ -34,7 +37,6 @@ classifier.fit(X_train, Y_train)
 # Predicting the Test set results
 Y_pred = classifier.predict(X_test)
 
-# Making the confusion Matrix
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(Y_test, Y_pred)
 
