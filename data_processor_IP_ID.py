@@ -1,4 +1,5 @@
 __author__ = "Md. Ahsan Ayub"
+
 __license__ = "GPL"
 __credits__ = ["Ayub, Md. Ahsan", "Smith, Steven", "Siraj, Ambareen",
                     "Hope, Shelby"]
@@ -44,7 +45,7 @@ def loadToMainDataFrame():
             mainDataFrame[rowIndexToInsertNDArray][i] = temp[i]
 
 # Parsing data from the production JSON dataset
-data = json.load(open("./Production_Data_IP_ID_10_19_2018.json"))
+data = json.load(open("./Regular_Network_Traffic.json"))
 for data_dic in data:
     for key in data_dic:
         if (key == '_source'):
@@ -70,10 +71,10 @@ for data_dic in data:
                     continue
             
             # hard coded class defined
-            if (temp[2] == '0x00002000'):
-                temp[12] = 1 # Covert channel's presence
-            else:
-                temp[12] = 0 # No Covert channel's presence
+            '''if (temp[2] == '0x00002000'):'''
+            temp[12] = 1 # Covert channel's presence
+            '''else:
+                temp[12] = 0 # No Covert channel's presence'''
             loadToMainDataFrame()
             rowIndexToInsertNDArray = rowIndexToInsertNDArray + 1
             temp.clear()

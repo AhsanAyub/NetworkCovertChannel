@@ -33,7 +33,7 @@ def loadToMainDataFrame():
             mainDataFrame[rowIndexToInsertNDArray][i] = temp[i]
 
 # Parsing data from the production JSON dataset
-data = json.load(open("Filter_View_DNS_Packet_Client.json"))
+data = json.load(open("Regular_Network_Traffic.json"))
 for data_dic in data:
     for key in data_dic:
         if (key == '_source'):

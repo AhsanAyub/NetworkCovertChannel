@@ -45,22 +45,26 @@ def loadToMainDataFrame():
             mainDataFrame[rowIndexToInsertNDArray][i] = temp[i]
 
 # Parsing data from the production JSON dataset
-data = json.load(open("Production_Data_TCP_Seq_10_19_2018.json"))
+data = json.load(open("Regular_Network_Traffic.json"))
 for data_dic in data:
     for key in data_dic:
         if (key == '_source'):
             for key_2nd_Layer in data_dic[key]['layers']:
+                '''print(key_2nd_Layer)'''
                 if (key_2nd_Layer == 'tcp'):
                     for final_key in data_dic[key]['layers'][key_2nd_Layer]:
+                        #print(final_key)
                         if(final_key == 'tcp.flags_tree'):
-                            for flags_tree in data_dic[key]['layers'][key_2nd_Layer][final_key]:
+                            for flags_tree in data_dic[key]['lX ayers'][key_2nd_Layer][final_key]:
                                 index = checkColumnName(flags_tree)
                                 if (index == -1):
                                     continue
                                 else:
+                                    #print(temp[index])
                                     temp[index] = data_dic[key]['layers'][key_2nd_Layer][final_key][flags_tree]
                         else:
                             index = checkColumnName(final_key)
+                            
                             if (index == -1):
                                 continue
                             else:
@@ -69,10 +73,10 @@ for data_dic in data:
                     continue
             
             # hard coded class defined
-            if (temp[0] == '536870912'):
-                temp[18] = 1 # Covert channel's presence
-            else:
-                temp[18] = 0 # No Covert channel's presence
+            '''if (temp[0] == '536870912'):'''
+            temp[18] = 1 # Covert channel's presence
+            '''else:
+                temp[18] = 0 # No Covert channel's presence'''
             loadToMainDataFrame()
             rowIndexToInsertNDArray = rowIndexToInsertNDArray + 1
             temp.clear()
@@ -81,4 +85,4 @@ for data_dic in data:
             continue
 
 # Generating the CSV file for further usuage.            
-pd.DataFrame(mainDataFrame).to_csv("Processed_Data_Set_TCP_Seq_23_10_2018.csv")
+pd.DataFrame(mainDataFrame).to_csv("Processed_Data_Set_Regular_Traffic_TCP_Seq_30_11_2018.csv")
