@@ -28,15 +28,15 @@ sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 
-'''# Fitting SVM (Linear Kernel) to the Training Set
+# Fitting SVM (Linear Kernel) to the Training Set
 from sklearn.svm import SVC
 classifier = SVC(kernel = 'linear', random_state = 0)
-classifier.fit(X_train, Y_train)'''
+classifier.fit(X_train, Y_train)
 
-# Fitting SVM (Gaussian RBF Kernel) to the Training Set
+'''# Fitting SVM (Gaussian RBF Kernel) to the Training Set
 from sklearn.svm import SVC
 classifier = SVC(kernel = 'rbf', random_state = 0)
-classifier.fit(X_train, Y_train)
+classifier.fit(X_train, Y_train)'''
 
 # Predicting the Test set results
 Y_pred = classifier.predict(X_test)
@@ -96,3 +96,40 @@ plot_confusion_matrix(cm,
                       normalize    = False,
                       target_names = ['0', '1'],
                       title        = "Support Vector Machine Classifier (Gaussian Kernel) in Network Layer")
+
+# Printing the Precision-Recall curve as well as showing the calculation
+from sklearn.metrics import precision_recall_curve, average_precision_score
+from sklearn.utils.fixes import signature
+
+precision, recall, _ = precision_recall_curve(Y_test, Y_pred)
+average_precision = average_precision_score(Y_test, Y_pred)
+
+print('Average precision-recall score: {0:0.2f}'.format(
+      average_precision))
+
+# In matplotlib < 1.5, plt.fill_between does not have a 'step' argument
+step_kwargs = ({'step': 'post'}
+               if 'step' in signature(plt.fill_between).parameters
+               else {})
+plt.step(recall, precision, color='b', alpha=0.2,
+         where='post')
+plt.fill_between(recall, precision, alpha=0.2, color='b', **step_kwargs)
+
+plt.xlabel('Recall\nAverage Precision, AP = {0:0.2f}'.format(
+          average_precision))
+plt.ylabel('Precision')
+plt.ylim([0.0, 1.05])
+plt.xlim([0.0, 1.0])
+plt.title('Precision-Recall curve for SVM (Linear Kernel) in Network Layer')
+
+# Measiring F1 Score
+from sklearn.metrics import f1_score
+print(f1_score(Y_test, Y_pred, average='binary'))
+
+# Measuring precision score
+from sklearn.metrics import precision_score
+print(precision_score(Y_test, Y_pred, average='binary'))
+
+# Measuring recall score
+from sklearn.metrics import recall_score
+print(recall_score(Y_test, Y_pred, average='binary'))

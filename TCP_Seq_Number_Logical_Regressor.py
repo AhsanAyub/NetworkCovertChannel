@@ -91,3 +91,40 @@ plot_confusion_matrix(cm,
                       normalize    = False,
                       target_names = ['0', '1'],
                       title        = "Logistic Regression Classifier in Transport Layer")
+
+# Printing the Precision-Recall curve as well as showing the calculation
+from sklearn.metrics import precision_recall_curve, average_precision_score
+from sklearn.utils.fixes import signature
+
+precision, recall, _ = precision_recall_curve(Y_test, Y_pred)
+average_precision = average_precision_score(Y_test, Y_pred)
+
+print('Average precision-recall score: {0:0.2f}'.format(
+      average_precision))
+
+# In matplotlib < 1.5, plt.fill_between does not have a 'step' argument
+step_kwargs = ({'step': 'post'}
+               if 'step' in signature(plt.fill_between).parameters
+               else {})
+plt.step(recall, precision, color='b', alpha=0.2,
+         where='post')
+plt.fill_between(recall, precision, alpha=0.2, color='b', **step_kwargs)
+
+plt.xlabel('Recall\nAverage Precision, AP = {0:0.2f}'.format(
+          average_precision))
+plt.ylabel('Precision')
+plt.ylim([0.0, 1.05])
+plt.xlim([0.0, 1.0])
+plt.title('Precision-Recall curve for Logistic Regression in Transport Layer')
+
+# Measiring F1 Score
+from sklearn.metrics import f1_score
+print(f1_score(Y_test, Y_pred, average='binary'))
+
+# Measuring precision score
+from sklearn.metrics import precision_score
+print(precision_score(Y_test, Y_pred, average='binary'))
+
+# Measuring recall score
+from sklearn.metrics import recall_score
+print(recall_score(Y_test, Y_pred, average='binary'))
